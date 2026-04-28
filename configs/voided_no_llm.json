@@ -1,0 +1,71 @@
+{
+  "generators": 
+    [
+        {
+            "directory": "/data",
+            "fileConfigs": {
+                "filePrefix": "voidedEvents-",
+                "format": "json",
+                "pretty": true
+            },
+            "data": {
+                "targetResident": {
+                    "firstName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
+                    "preferredName": {"_gen": "string", "expr": "#{Name.firstName}", "null": {"rate": 0.2}, "locale": ["en", "gb"]},
+                    "lastName": {"_gen": "string", "expr": "#{Name.lastName}", "locale": ["en", "gb"]},
+                    "sex": {"_gen": "oneOf", "choices": ["Male", "Female"]}
+                },
+                "additionalResident": {
+                    "firstName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
+                    "preferredName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
+                    "lastName": {"_gen": "string", "expr": "#{Name.lastName}", "locale": ["en", "gb"]},
+                    "sex": {"_gen": "oneOf", "choices": ["Male", "Female"]}
+                },
+                "noteScenario": {
+                    "noteResident": {"_gen": "oneOf", "choices": ["target", "additional"]},  
+                    "multiplePeople": {"_gen": "boolean"},
+                    "nameUsage": {
+                        "type": {
+                            "_gen": "weightedOneOf", 
+                            "choices": [
+                                {"weight": 1, "value": "full"},
+                                {"weight": 2, "value": "first"},
+                                {"weight": 2, "value": "preferred"},
+                                {"weight": 1, "value": "last_title"},
+                                {"weight": 2, "value": "nickname"},
+                                {"weight": 1, "value": "variant"},
+                                {"weight": 1, "value": "none"}
+                            ]
+                        },
+                        "misspelt": {"_gen": "boolean"},
+                        "pronounUsage": {
+                            "_gen": "weightedOneOf", 
+                            "choices": [
+                                {
+                                    "weight": 6,
+                                    "value": "correct"
+                                },
+                                {
+                                    "weight": 1,
+                                    "value": "incorrect"
+                                },
+                                {
+                                    "weight": 3,
+                                    "value": "non-binary"   
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "globalConfigs": {
+        "maxEvents": 100
+    },
+    "connections": {
+        "localFs": {
+            "kind": "fileSystem"
+        }
+    }
+}
