@@ -24,6 +24,7 @@
                 "noteScenario": {
                     "noteResident": {"_gen": "oneOf", "choices": ["target", "additional"]},  
                     "multiplePeople": {"_gen": "boolean"},
+                    "sentiment": {"_gen": "oneOf", "choices": ["positive", "negative", "neutral"]},
                     "nameUsage": {
                         "type": {
                             "_gen": "weightedOneOf", 
