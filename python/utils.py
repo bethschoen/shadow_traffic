@@ -38,7 +38,7 @@ def redact_additional_resident(params):
     redact = params["args"].get("alternativeResidentRedacted")
     alternative_resident = params["args"].get("alternativeResident")
     if redact:
-        alternative_resident = "REDACTED_PERSON_NAME_1"
+        alternative_resident = "[REDACTED_PERSON_NAME_1]"
     
     return {
         "value": alternative_resident

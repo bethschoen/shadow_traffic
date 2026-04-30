@@ -24,7 +24,14 @@
                 "alternativeResidentRedacted": {"_gen": "boolean"},
                 "noteScenario": {
                     "noteResident": {"_gen": "oneOf", "choices": ["target", "alternative"]},  
-                    "additionalNamesMentioned": {"_gen": "string", "expr": "#{Name.firstName}", "null": {"rate": 0.8}},
+                    "additionalNamesMentioned": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            {"_gen": "string", "expr": "#{Name.firstName}"}, 
+                            "[REDACTED_PERSON_NAME_2]"
+                        ],
+                        "null": {"rate": 0.8}
+                    },  
                     "sentiment": {"_gen": "oneOf", "choices": ["positive", "negative", "neutral"]}
                 },
                 "nameUsage": {
