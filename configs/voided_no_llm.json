@@ -10,43 +10,140 @@
             },
             "vars": {
                 "targetResident": {
-                    "firstName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
-                    "preferredName": {"_gen": "string", "expr": "#{Name.firstName}", "null": {"rate": 0.2}, "locale": ["en", "gb"]},
-                    "lastName": {"_gen": "string", "expr": "#{Name.lastName}", "locale": ["en", "gb"]},
-                    "sex": {"_gen": "oneOf", "choices": ["Male", "Female"]}
+                    "firstName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.firstName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "preferredName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.firstName}", 
+                        "null": {
+                            "rate": 0.2
+                        }, 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "lastName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.lastName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "sex": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "Male", 
+                            "Female"
+                        ]
+                    }
                 },
                 "alternativeResident": {
-                    "firstName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
-                    "preferredName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
-                    "lastName": {"_gen": "string", "expr": "#{Name.lastName}", "locale": ["en", "gb"]},
-                    "sex": {"_gen": "oneOf", "choices": ["Male", "Female"]}
+                    "firstName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.firstName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "preferredName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.firstName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "lastName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.lastName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "sex": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "Male", 
+                            "Female"
+                        ]
+                    }
                 },
-                "alternativeResidentRedacted": {"_gen": "boolean"},
+                "alternativeResidentRedacted": {
+                    "_gen": "boolean"
+                },
                 "noteScenario": {
-                    "noteResident": {"_gen": "oneOf", "choices": ["target", "alternative"]},  
+                    "noteResident": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "target", 
+                            "alternative"
+                        ]
+                    },  
                     "additionalNamesMentioned": {
                         "_gen": "oneOf", 
                         "choices": [
-                            {"_gen": "string", "expr": "#{Name.firstName}"}, 
+                            {
+                                "_gen": "string", 
+                                "expr": "#{Name.firstName}"
+                            }, 
                             "[REDACTED_PERSON_NAME_2]"
                         ],
-                        "null": {"rate": 0.8}
+                        "null": {
+                            "rate": 0.8
+                        }
                     },  
-                    "sentiment": {"_gen": "oneOf", "choices": ["positive", "negative", "neutral"]}
+                    "sentiment": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "positive", 
+                            "negative", 
+                            "neutral"
+                        ]
+                    }
                 },
                 "nameUsage": {
                     "type": {
                         "_gen": "weightedOneOf", 
                         "choices": [
-                            {"weight": 1, "value": "full"},
-                            {"weight": 2, "value": "first"},
-                            {"weight": 2, "value": "preferred"},
-                            {"weight": 1, "value": "last_title"},
-                            {"weight": 2, "value": "nickname"},
-                            {"weight": 1, "value": "none"}
+                            {
+                                "weight": 1, 
+                                "value": "full"
+                            },
+                            {
+                                "weight": 2, 
+                                "value": "first"
+                            },
+                            {
+                                "weight": 2, 
+                                "value": "preferred"
+                            },
+                            {
+                                "weight": 1, 
+                                "value": "last_title"
+                            },
+                            {
+                                "weight": 2, 
+                                "value": "nickname"
+                            },
+                            {
+                                "weight": 1, 
+                                "value": "none"
+                            }
                         ]
                     },
-                    "misspelt": {"_gen": "boolean"},
+                    "misspelt": {
+                        "_gen": "boolean"
+                    },
                     "pronounUsage": {
                         "_gen": "weightedOneOf", 
                         "choices": [
