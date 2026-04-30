@@ -21,3 +21,14 @@ docker run \
   shadowtraffic/shadowtraffic:latest \
   --config /home/config.json
 ```
+
+
+```
+docker run \
+  --env-file "$(pwd)/license.env" \
+  -v "$(pwd)/configs/voided_no_llm.json:/home/config.json" \
+  -v "$(pwd)/output:/data" \
+  -v "$(pwd)/python:/home/python" \
+  shadowtraffic/shadowtraffic:latest \
+  --config /home/config.json
+```

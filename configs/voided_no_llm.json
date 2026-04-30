@@ -8,53 +8,99 @@
                 "format": "json",
                 "pretty": true
             },
-            "data": {
+            "vars": {
                 "targetResident": {
                     "firstName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
                     "preferredName": {"_gen": "string", "expr": "#{Name.firstName}", "null": {"rate": 0.2}, "locale": ["en", "gb"]},
                     "lastName": {"_gen": "string", "expr": "#{Name.lastName}", "locale": ["en", "gb"]},
                     "sex": {"_gen": "oneOf", "choices": ["Male", "Female"]}
                 },
-                "additionalResident": {
+                "alternativeResident": {
                     "firstName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
                     "preferredName": {"_gen": "string", "expr": "#{Name.firstName}", "locale": ["en", "gb"]},
                     "lastName": {"_gen": "string", "expr": "#{Name.lastName}", "locale": ["en", "gb"]},
                     "sex": {"_gen": "oneOf", "choices": ["Male", "Female"]}
                 },
+                "alternativeResidentRedacted": {"_gen": "boolean"},
                 "noteScenario": {
-                    "noteResident": {"_gen": "oneOf", "choices": ["target", "additional"]},  
-                    "multiplePeople": {"_gen": "boolean"},
-                    "sentiment": {"_gen": "oneOf", "choices": ["positive", "negative", "neutral"]},
-                    "nameUsage": {
-                        "type": {
-                            "_gen": "weightedOneOf", 
-                            "choices": [
-                                {"weight": 1, "value": "full"},
-                                {"weight": 2, "value": "first"},
-                                {"weight": 2, "value": "preferred"},
-                                {"weight": 1, "value": "last_title"},
-                                {"weight": 2, "value": "nickname"},
-                                {"weight": 1, "value": "variant"},
-                                {"weight": 1, "value": "none"}
-                            ]
+                    "noteResident": {"_gen": "oneOf", "choices": ["target", "alternative"]},  
+                    "additionalNamesMentioned": {"_gen": "string", "expr": "#{Name.firstName}", "null": {"rate": 0.8}},
+                    "sentiment": {"_gen": "oneOf", "choices": ["positive", "negative", "neutral"]}
+                },
+                "nameUsage": {
+                    "type": {
+                        "_gen": "weightedOneOf", 
+                        "choices": [
+                            {"weight": 1, "value": "full"},
+                            {"weight": 2, "value": "first"},
+                            {"weight": 2, "value": "preferred"},
+                            {"weight": 1, "value": "last_title"},
+                            {"weight": 2, "value": "nickname"},
+                            {"weight": 1, "value": "none"}
+                        ]
+                    },
+                    "misspelt": {"_gen": "boolean"},
+                    "pronounUsage": {
+                        "_gen": "weightedOneOf", 
+                        "choices": [
+                            {
+                                "weight": 6,
+                                "value": "correct"
+                            },
+                            {
+                                "weight": 1,
+                                "value": "incorrect"
+                            },
+                            {
+                                "weight": 3,
+                                "value": "non-binary"   
+                            }
+                        ]
+                    }
+                }
+            },
+            "data": {
+                "targetResident": {
+                    "_gen": "var",
+                    "var": "targetResident"
+                },
+                "alternativeResident": {
+                    "_gen": "customFunction",
+                    "language": "python",
+                    "file": "/home/python/utils.py",
+                    "function": "redact_additional_resident",
+                    "args": {
+                        "alternativeResidentRedacted": {
+                            "_gen": "var",
+                            "var": "alternativeResidentRedacted"
                         },
-                        "misspelt": {"_gen": "boolean"},
-                        "pronounUsage": {
-                            "_gen": "weightedOneOf", 
-                            "choices": [
-                                {
-                                    "weight": 6,
-                                    "value": "correct"
-                                },
-                                {
-                                    "weight": 1,
-                                    "value": "incorrect"
-                                },
-                                {
-                                    "weight": 3,
-                                    "value": "non-binary"   
-                                }
-                            ]
+                        "alternativeResident": {
+                            "_gen": "var",
+                            "var": "alternativeResident"
+                        }
+                    }
+                },
+                "noteScenario": {
+                    "_gen": "var",
+                    "var": "noteScenario"
+                },
+                "nameUsage": {
+                    "_gen": "customFunction",
+                    "language": "python",
+                    "file": "/home/python/utils.py",
+                    "function": "clean_name_usage",
+                    "args": {
+                        "nameUsage": {
+                            "_gen": "var",
+                            "var": "nameUsage"
+                        },
+                        "noteScenario": {
+                            "_gen": "var",
+                            "var": "noteScenario"
+                        },
+                        "alternativeResidentRedacted": {
+                            "_gen": "var",
+                            "var": "alternativeResidentRedacted"
                         }
                     }
                 }
