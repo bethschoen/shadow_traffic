@@ -23,13 +23,23 @@ def select_pronouns_based_on_name_usage(name_usage):
     
     return pronoun_usage
 
+def select_name_type_based_on_preferred_name(name_usage, note_resident, preferred_name):
+    name_type = name_usage.get("type")
+    if name_type == "preferred" and preferred_name is None and note_resident == "target":
+        return "first"
+    else:
+        return name_type
+
 def clean_name_usage(params):
     name_usage = params["args"]["nameUsage"]
     note_resident = params["args"]["noteScenario"]["noteResident"]
     alternative_resident_redacted = params["args"]["alternativeResidentRedacted"]
+    preferred_name = params["args"]["targetResident"]["preferredName"]
 
     name_usage["misspelt"] = select_misspellings_based_on_names(name_usage, note_resident, alternative_resident_redacted)
     name_usage["pronounUsage"] = select_pronouns_based_on_name_usage(name_usage)
+    name_usage["type"] = select_name_type_based_on_preferred_name(name_usage, note_resident, preferred_name)
+
     return {
         "value": name_usage
     }

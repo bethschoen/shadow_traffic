@@ -108,6 +108,10 @@
                         "alternativeResidentRedacted": {
                             "_gen": "var",
                             "var": "alternativeResidentRedacted"
+                        },
+                        "targetResident": {
+                            "_gen": "var",
+                            "var": "targetResident"
                         }
                     }
                 }
