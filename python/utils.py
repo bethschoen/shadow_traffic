@@ -1,11 +1,12 @@
 import random
 
-def select_misspellings_based_on_names(name_usage, note_resident, alternative_resident_redacted):
+def select_misspellings_based_on_names(name_usage, note_resident, alternative_resident):
     """
     If a nickname is being used, don't allow misspellings 
     - it's clear that the name being used is not the one on record, so no need to introduce further ambiguity with misspellings. 
     If no name is being used, then set misspelt to None to avoid confusion
     """
+    alternative_resident_redacted = isinstance(alternative_resident, str) and "REDACTED" in alternative_resident
     name_type = name_usage.get("type")
     # don't misspell if we're using a name different to the one on record
     if name_type == "nickname":
@@ -48,28 +49,18 @@ def clean_name_usage(params):
     Cleans the name usage parameters by selecting the appropriate misspelling, pronoun usage,
     and name type based on the provided parameters.
     """
+    # get generated data to be checked and tweak
     name_usage = params["args"]["nameUsage"]
     note_resident = params["args"]["noteScenario"]["noteResident"]
-    alternative_resident_redacted = params["args"]["alternativeResidentRedacted"]
+    alternative_resident = params["args"]["alternativeResident"]
     preferred_name = params["args"]["targetResident"]["preferredName"]
 
-    name_usage["misspelt"] = select_misspellings_based_on_names(name_usage, note_resident, alternative_resident_redacted)
+    # Use helper functions to determine the final values for misspelling, pronoun usage, and name type
+    name_usage["misspelt"] = select_misspellings_based_on_names(name_usage, note_resident, alternative_resident)
     name_usage["pronounUsage"] = select_pronouns_based_on_name_usage(name_usage)
     name_usage["type"] = select_name_type_based_on_preferred_name(name_usage, note_resident, preferred_name)
 
+    # Return tweaked name usage data
     return {
         "value": name_usage
-    }
-
-def redact_additional_resident(params):
-    """
-    Redacts the alternative resident's name if specified in the parameters.
-    """
-    redact = params["args"].get("alternativeResidentRedacted")
-    alternative_resident = params["args"].get("alternativeResident")
-    if redact:
-        alternative_resident = "[REDACTED_PERSON_NAME_1]"
-    
-    return {
-        "value": alternative_resident
     }
