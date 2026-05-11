@@ -1,7 +1,7 @@
 # In construction 🚧
-This is a WIP :3
+This is a WIP. 
 
-## Problem Statement
+## Problem Statement
 As our reliance on LLMs to generate and transform unstructured text data grows, we must consider how to confidently evaluate the performance of the model. This is particularly important for tasks like classification where the output can inform business-critical decision making. 
 
 LLMs were originally chosen to perform the task because they require no training, only a prompt, and are thus much faster to set-up. They don't require a labelled training dataset to understand the task. This is ideal for quick development and deployment, but poses a significant risk when the evaluating the output. **Without a labelled dataset, how do we know if the model is correct?**
