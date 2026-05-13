@@ -1,0 +1,251 @@
+{
+  "generators": 
+    [
+        {
+            "directory": "/data",
+            "fileConfigs": {
+                "filePrefix": "voidedEvents-ai-v1-",
+                "format": "json",
+                "pretty": true
+            },
+            "vars": {
+                "targetResident": {
+                    "firstName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.firstName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "preferredName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.firstName}", 
+                        "null": {
+                            "rate": 0.2
+                        }, 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "lastName": {
+                        "_gen": "string", 
+                        "expr": "#{Name.lastName}", 
+                        "locale": [
+                            "en", 
+                            "gb"
+                        ]
+                    },
+                    "sex": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "Male", 
+                            "Female"
+                        ]
+                    }
+                },
+                "alternativeResident": {
+                    "_gen": "weightedOneOf",
+                    "choices": [
+                        {
+                            "weight": 3,
+                            "value": "[REDACTED_PERSON_NAME_1]"
+                        },
+                        {
+                            "weight": 7,
+                            "value":{
+                                "firstName": {
+                                    "_gen": "string", 
+                                    "expr": "#{Name.firstName}", 
+                                    "locale": [
+                                        "en", 
+                                        "gb"
+                                    ]
+                                },
+                                "preferredName": {
+                                    "_gen": "string", 
+                                    "expr": "#{Name.firstName}", 
+                                    "locale": [
+                                        "en", 
+                                        "gb"
+                                    ]
+                                },
+                                "lastName": {
+                                    "_gen": "string", 
+                                    "expr": "#{Name.lastName}", 
+                                    "locale": [
+                                        "en", 
+                                        "gb"
+                                    ]
+                                },                    
+                                "sex": {
+                                    "_gen": "oneOf", 
+                                    "choices": [
+                                        "Male", 
+                                        "Female"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
+                "noteScenario": {
+                    "noteResident": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "target", 
+                            "alternative"
+                        ]
+                    },  
+                    "additionalNamesMentioned": {
+                        "_gen": "weightedOneOf", 
+                        "choices": [
+                            {
+                                "weight": 7,
+                                "value": {
+                                    "_gen": "string", 
+                                    "expr": "#{Name.firstName}"
+                                }
+                            },
+                            {
+                                "weight": 3,
+                                "value": "[REDACTED_PERSON_NAME_2]"
+                            }
+                        ],
+                        "null": {
+                            "rate": 0.8
+                        }
+                    },  
+                    "sentiment": {
+                        "_gen": "oneOf", 
+                        "choices": [
+                            "positive", 
+                            "negative", 
+                            "neutral"
+                        ]
+                    }
+                },
+                "nameUsage": {
+                    "type": {
+                        "_gen": "weightedOneOf", 
+                        "choices": [
+                            {
+                                "weight": 1, 
+                                "value": "full"
+                            },
+                            {
+                                "weight": 2, 
+                                "value": "first"
+                            },
+                            {
+                                "weight": 2, 
+                                "value": "preferred"
+                            },
+                            {
+                                "weight": 1, 
+                                "value": "last_title"
+                            },
+                            {
+                                "weight": 2, 
+                                "value": "nickname"
+                            },
+                            {
+                                "weight": 1, 
+                                "value": "none"
+                            }
+                        ]
+                    },
+                    "misspelt": {
+                        "_gen": "weightedOneOf",
+                        "choices": [
+                            {
+                                "weight": 3,
+                                "value": true
+                            },
+                            {
+                                "weight": 7,
+                                "value": false
+                            }
+                        ]
+                    },
+                    "pronounUsage": {
+                        "_gen": "weightedOneOf", 
+                        "choices": [
+                            {
+                                "weight": 6,
+                                "value": "correct"
+                            },
+                            {
+                                "weight": 1,
+                                "value": "incorrect"
+                            },
+                            {
+                                "weight": 3,
+                                "value": "non-binary"   
+                            }
+                        ]
+                    }
+                }
+            },
+            "data": {
+                "targetResident": {
+                    "_gen": "var",
+                    "var": "targetResident"
+                },
+                "alternativeResident": {
+                    "_gen": "var",
+                    "var": "alternativeResident"
+                },
+                "noteScenario": {
+                    "_gen": "var",
+                    "var": "noteScenario"
+                },
+                "nameUsage": {
+                    "_gen": "customFunction",
+                    "language": "python",
+                    "file": "/home/python/utils.py",
+                    "function": "clean_name_usage",
+                    "args": {
+                        "nameUsage": {
+                            "_gen": "var",
+                            "var": "nameUsage"
+                        },
+                        "noteScenario": {
+                            "_gen": "var",
+                            "var": "noteScenario"
+                        },
+                        "alternativeResident": {
+                            "_gen": "var",
+                            "var": "alternativeResident"
+                        },
+                        "targetResident": {
+                            "_gen": "var",
+                            "var": "targetResident"
+                        }
+                    }
+                },
+                "careNote": {
+                    "_gen":"ai",
+                    "service": "ollama",
+                    "ollama": {
+                        "url": "http://host.docker.internal:11434",
+                        "model": "llama3.2:3b",
+                        "prompt": {
+                            "_gen": "env",
+                            "var": "VOIDED_PROMPT"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "globalConfigs": {
+        "maxEvents": 3
+    },
+    "connections": {
+        "localFs": {
+            "kind": "fileSystem"
+        }
+    }
+}

@@ -1,0 +1,77 @@
+[
+  {
+    "targetResident" : {
+      "firstName" : "Jesus",
+      "preferredName" : null,
+      "lastName" : "Reynolds",
+      "sex" : "Female"
+    },
+    "alternativeResident" : {
+      "firstName" : "Bryon",
+      "preferredName" : "Helen",
+      "lastName" : "Bashirian",
+      "sex" : "Male"
+    },
+    "noteScenario" : {
+      "noteResident" : "target",
+      "additionalNamesMentioned" : null,
+      "sentiment" : "negative"
+    },
+    "nameUsage" : {
+      "pronounUsage" : "correct",
+      "type" : "first",
+      "misspelt" : false
+    },
+    "careNote" : "<note> \nResidents are currently settling in to their new home. Helen is happy to be here and the staff are assisting her well. </note>"
+  },
+  {
+    "targetResident" : {
+      "firstName" : "Cornelius",
+      "preferredName" : "Angelica",
+      "lastName" : "Ward",
+      "sex" : "Female"
+    },
+    "alternativeResident" : {
+      "firstName" : "Machelle",
+      "preferredName" : "Lane",
+      "lastName" : "Dach",
+      "sex" : "Female"
+    },
+    "noteScenario" : {
+      "noteResident" : "target",
+      "additionalNamesMentioned" : "[REDACTED_PERSON_NAME_2]",
+      "sentiment" : "positive"
+    },
+    "nameUsage" : {
+      "pronounUsage" : "correct",
+      "type" : "first",
+      "misspelt" : true
+    },
+    "careNote" : "\"Angelica Ward needed assistance moving into her room this morning. Gertrude was offered a bowl of porridge with honeyx2.\""
+  },
+  {
+    "targetResident" : {
+      "firstName" : "Donny",
+      "preferredName" : "Vera",
+      "lastName" : "Donnelly",
+      "sex" : "Female"
+    },
+    "alternativeResident" : {
+      "firstName" : "Gillian",
+      "preferredName" : "Nichol",
+      "lastName" : "Streich",
+      "sex" : "Male"
+    },
+    "noteScenario" : {
+      "noteResident" : "alternative",
+      "additionalNamesMentioned" : "Mauro",
+      "sentiment" : "negative"
+    },
+    "nameUsage" : {
+      "pronounUsage" : "incorrect",
+      "type" : "nickname",
+      "misspelt" : false
+    },
+    "careNote" : "\"Vera needed assistance with personal care and is currently being assisted by our carer staff. Mauro came to visit and provided support.\""
+  }
+]

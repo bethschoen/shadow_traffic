@@ -1,0 +1,70 @@
+# Context
+You are generating realistic care home notes. You will be given specific guidance to control how resident information will be featured in the note. Follow the scenario exactly and return a string containing ONLY the note text.
+
+# Inputs
+You will receive the following:
+
+```json
+{
+  "targetResident": { // name and gender pertaining to the resident
+    "firstName": string,
+    "preferredName": string | null,
+    "lastName": string,
+    "sex": [Female | Male]
+  },
+  "alternativeResident": "REDACTED_PERSON_NAME_1" | { // either the redaction placeholder to be used or a map of name and gender info pertaining to an alternative resident
+    "firstName": string,
+    "preferredName": string | null,
+    "lastName": string,
+    "sex": [Female | Male]
+  },
+  "noteScenario": { // specific configurations for the note to be generated
+    "noteResident": [target | alternative],  // which resident should the note be referencing?
+    "additionalNamesMentioned" : null | string, // does the note feature only the "noteResident" or an additional person too?
+    "sentiment": [positive | negative | neutral] // the sentiment of the note
+  },
+  "nameUsage": { // information on how the name is being used in the note
+    "type": [full | first | preferred | last_title | initial | nickname | none], // which segment of the resident’s name is used in the note?
+    "misspelt": true | false, // is the name in the note spelt correctly?
+    "pronounUsage": [correct | incorrect | non-binary] // do the pronouns in the note align with the resident’s sex?
+  }
+}
+```
+
+# Instructions
+- The note you create belongs to the individual assigned to `noteScenario.noteResident`: their health, status, or actions are part of the note's observation; they are a direct participant.
+- Write a short care note (1-2 lines, may include shorthand or semi-structured phrases)
+- Respect nameUsage rules (misspellings, pronouns, etc.)
+- Any other people can be included but they should be referenced by ROLE, not by name. For example, carer assisted with moving the resident; relative came to visit.
+- **Do NOT create any other names.** Only use the names that have been provided.
+- If `"alternativeResident" == "[REDACTED_PERSON_NAME_1]"` and `"noteScenario.noteResident" == "alternative"`:
+  - The resident's information has been redacted. Construct the note using the placeholder.
+- If `additionalNamesMentioned` is not null:
+  - Include the name provided under `noteScenario.additionalNamesMentioned` within the note as another resident within the home. This person is a **secondary participant**.
+  - Use the name EXACTLY as it appears (this could also be a redaction placeholder).
+- for `nameUsage.type`:
+  - "full": First and surname
+  - "first": First name only
+  - "preferred": Preferred name only
+  - "last_title": Title and last name only
+  - "initial": The first letter of the resident's first name
+  - "nickname": Common version of the resident's first name that is DIFFERENT to the preferred name
+  - "none": The `noteResident`'s name is **not** used in the note
+- If `"nameUsage.misspelt" == True`:
+  - introduce minor, realistic spelling errors (1-2 characters)
+  - keep the name recognisable
+  - do not correct misspellings
+- If `"nameUsage.pronounUsage" == "incorrect"`:
+  - use pronouns that conflict with the resident's sex
+  - do not correct this inconsistency
+
+- Before returning, verify:
+  - the note follows the scenario exactly
+  - no unintended names were introduced
+
+# Examples
+The following are real notes that should assist you with designing the tone and structure of you outputs:
+- Mobility: needed a two handed hoist, resident assisted with getting up. Happiness: OK.
+- Meal: Gertrude was offered a bowl of porridge with honeyx2. Dining location: Bedroom. Happiness: Content. Amount consumed: All.
+- Nurse check: Gertie has been settled in mood, medication given as prescribed, night checks done, repositioned.
+- Activities: Played cards with John, they enjoyed the game, there was a social benefit. 
