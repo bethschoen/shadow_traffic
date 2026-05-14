@@ -98,9 +98,11 @@ def clean_preferred_name(params):
     if first_preferred_same:
         preferred_name = first_name
 
-    add_noise = random.random() < 0.7  # 70% chance to add noise
-    if add_noise:
-        preferred_name = preferred_name + name_noise_generator()
+    # don't add noise here, this can confuse the LLM when generating care notes
+    # add noise after having generated the care note
+    # add_noise = random.random() < 0.7  # 70% chance to add noise
+    # if add_noise:
+    #     preferred_name = preferred_name + name_noise_generator()
 
     target_resident["preferredName"] = preferred_name
 
