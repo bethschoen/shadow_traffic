@@ -64,3 +64,46 @@ def clean_name_usage(params):
     return {
         "value": name_usage
     }
+
+def name_noise_generator():
+    """
+    Randomly create room number noise to add to a name
+    """
+    name_space = random.choice(["", " ", " ", " "]) # more likely to have a space than not
+    room_types = ["", "room", "rm"]
+    punctuation = ["", " ", "-", "_"]
+    additional_letters = ["", "S"]
+
+    room_noise = name_space + random.choice(room_types) + random.choice(punctuation) + random.choice(additional_letters) + str(random.randint(1, 50))
+
+    return room_noise
+
+def clean_preferred_name(params):
+    """
+    Randomly sets the preferred name to the same as the first name
+    Also randomly adds noise to the preferred name (simulated room number)
+    Tests the program's ability to handle these instances
+    """
+    target_resident = params["args"]["targetResident"]
+    first_name = target_resident["firstName"]
+    preferred_name = target_resident["preferredName"]
+
+    # Don't do anything if there's no preferred name
+    if preferred_name is None:
+        return {
+            "value": target_resident
+        }
+
+    first_preferred_same = random.random() < 0.5  # 50% chance to set preferred name the same as first name
+    if first_preferred_same:
+        preferred_name = first_name
+
+    add_noise = random.random() < 0.7  # 70% chance to add noise
+    if add_noise:
+        preferred_name = preferred_name + name_noise_generator()
+
+    target_resident["preferredName"] = preferred_name
+
+    return {
+        "value": target_resident
+    }

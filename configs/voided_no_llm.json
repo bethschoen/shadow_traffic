@@ -4,7 +4,7 @@
         {
             "directory": "/data",
             "fileConfigs": {
-                "filePrefix": "voidedEvents-v1-",
+                "filePrefix": "voidedEvents-v2-",
                 "format": "json",
                 "pretty": true
             },
@@ -190,8 +190,16 @@
             },
             "data": {
                 "targetResident": {
-                    "_gen": "var",
-                    "var": "targetResident"
+                    "_gen": "customFunction",
+                    "language": "python",
+                    "file": "/home/python/utils.py",
+                    "function": "clean_preferred_name",
+                    "args": {
+                        "targetResident": {
+                            "_gen": "var",
+                            "var": "targetResident"
+                        }
+                    }
                 },
                 "alternativeResident": {
                     "_gen": "var",
